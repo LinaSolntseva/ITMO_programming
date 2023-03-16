@@ -14,6 +14,10 @@ plugins {
     id 'application'
 }
 
+application {
+    mainClass = 'main.Main'
+}
+
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
@@ -36,20 +40,16 @@ task testing {
         println 'Running tests...'
     }
 }
-task application {
-    // Define the main class for the application.
-    mainClassName = 'Main'
-}
 
 run {
-    main = 'Main'
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     environment 'FILENAME', 'C:/test.yaml'
 }
 jar {
     manifest {
-        attributes 'Main-Class': 'Main'
+        attributes'Main-Class': 'main.Main',
+        'Class-Path': configurations.runtimeClasspath.files.collect { it.getName() }.join(' ')
     }
 }
 javadoc {
